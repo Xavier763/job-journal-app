@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Journal Scheduler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Job Journal Scheduler</h1>
+            <div class="header-controls">
+                <button id="settingsBtn" class="btn btn-secondary">Settings</button>
+                <button id="darkModeToggle" class="btn btn-secondary">🌙</button>
+            </div>
+        </header>
+
+        <div class="totals-section">
+            <div class="total-item">
+                <span class="total-label">This Week:</span>
+                <span id="thisWeekTotal" class="total-value">0h 0m</span>
+            </div>
+            <div class="total-item">
+                <span class="total-label">Last Week:</span>
+                <span id="lastWeekTotal" class="total-value">0h 0m</span>
+            </div>
+            <div class="total-item">
+                <span class="total-label">This Month:</span>
+                <span id="thisMonthTotal" class="total-value">0h 0m</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="controls">
+                <div class="date-nav">
+                    <button id="prevWeek" class="btn btn-secondary">‹ Previous Week</button>
+                    <span id="currentWeek" class="current-week"></span>
+                    <button id="nextWeek" class="btn btn-secondary">Next Week ›</button>
+                </div>
+                <button id="todayBtn" class="btn btn-primary">Today</button>
+            </div>
+
+            <div class="calendar" id="calendar"></div>
+
+            <div class="bulk-input-section">
+                <h3>Bulk Input</h3>
+                <textarea id="bulkInput" placeholder="Enter multiple entries, one per line:\nMon 8:00-17:00 Project A\nTue 9:00-16:30 Meeting prep\nWed 8:30-17:30 Development work"></textarea>
+                <button id="bulkImportBtn" class="btn btn-primary">Import Entries</button>
+            </div>
+
+            <!-- Weekly Report Modal moved here -->
+            <div class="weekly-report-section">
+                <button id="weeklyReportBtn" class="btn btn-secondary">Generate Weekly Report</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day Modal -->
+    <div id="dayModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalDate"></h2>
+                <span class="close" id="closeDayModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="time-inputs">
+                    <div class="input-group">
+                        <label for="startTime">Start Time:</label>
+                        <input type="time" id="startTime">
+                    </div>
+                    <div class="input-group">
+                        <label for="endTime">End Time:</label>
+                        <input type="time" id="endTime">
+                    </div>
+                    <div class="input-group">
+                        <label for="description">Description:</label>
+                        <input type="text" id="description" placeholder="What did you work on?">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="addEntry" class="btn btn-primary">Add Entry</button>
+                    <button id="clearDay" class="btn btn-danger">Clear Day</button>
+                </div>
+                <div class="entries-list" id="entriesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <span class="close" id="closeSettingsModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label for="scheduleMode">Schedule Mode:</label>
+                    <select id="scheduleMode">
+                        <option value="flexible">Flexible</option>
+                        <option value="two23">2-2-3 Rotation</option>
+                        <option value="three_fixed">3 Fixed Days</option>
+                        <option value="four_fixed">4 Fixed Days</option>
+                        <option value="five_fixed">5 Fixed Days (Mon-Fri)</option>
+                    </select>
+                </div>
+                <div class="setting-group" id="fixedDaysGroup" style="display: none;">
+                    <label>Fixed Days:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" value="1"> Monday</label>
+                        <label><input type="checkbox" value="2"> Tuesday</label>
+                        <label><input type="checkbox" value="3"> Wednesday</label>
+                        <label><input type="checkbox" value="4"> Thursday</label>
+                        <label><input type="checkbox" value="5"> Friday</label>
+                        <label><input type="checkbox" value="6"> Saturday</label>
+                        <label><input type="checkbox" value="0"> Sunday</label>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label for="holidayMode">Holiday Handling:</label>
+                    <select id="holidayMode">
+                        <option value="skip">Skip holidays</option>
+                        <option value="work">Work on holidays</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Report Modal -->
+    <div id="weeklyReportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Weekly Report</h2>
+                <span class="close" id="closeWeeklyReportModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="weeklyReportContent"></div>
+                <div class="modal-actions">
+                    <button id="copyReport" class="btn btn-secondary">Copy to Clipboard</button>
+                    <button id="exportReport" class="btn btn-primary">Export as Text</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
